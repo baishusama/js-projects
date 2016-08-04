@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grids with numbers!</title>
+    <script type="text/javascript" src="scripts\jquery-2.2.1.min.js"></script>
+    <style>
+        html {
+            height: 100%;
+            background-color: #000;
+        }
+        body {
+            display: -webkit-flex;
+            display: flex;/* 为了整体的居中 */
+            margin: 0;
+            height: 100%;
+            font-size: 20px;
+            font-family: "微软雅黑";
+            background-color: #eee;
+        }
+
+        .box {
+            display: -webkit-flex;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            align-content: space-around;
+            margin: auto;/* 为了整体的居中 */
+            width: 600px;
+            height: 600px;
+            background-color: lightyellow;
+        }
+
+        .item {
+            width: 100px;
+            height: 100px;
+            /*line-height: 100px;*/
+            text-align: center;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $box = $(".box");
+            // 获取 box 边长。注意：要去掉末尾的'px'。
+            var total = $box.css("width").slice(0,-2);
+            var base = 10;
+            /* 确保每行 n 个格子：
+                0.01和0.99是刚好n个和n+1个时候的item边长 */
+            var item_size = total/base*0.01 + total/(base+1)*0.99;
+
+            for(var i = 0;i < base * base;i++){
+                var html = "<span class='item'>"+(i+1)+"</span>";
+                var $span = $(html);
+                $span.css({
+                    "width": item_size + 'px',
+                    "height": item_size + 'px',
+                    "line-height": item_size + 'px'/* line-height 必须加单位 */
+                });
+                $box.append($span);
+            }
+
+            // .on() 替代 .delegate() 事件委托
+            $box.on("click", "span", function(){
+                console.log($(this).text());
+            });
+        });
+    </script>
+</body>
+</html>
